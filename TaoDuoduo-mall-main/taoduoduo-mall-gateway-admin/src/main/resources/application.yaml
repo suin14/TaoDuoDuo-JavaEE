@@ -1,0 +1,86 @@
+server:
+  port: 29100
+
+spring:
+  application:
+    name: taoduoduo-mall-gateway-admin
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 100.105.28.68
+        group: SEATA_GROUP
+      username: nacos
+      password: nacos
+
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+
+      routes:
+        - id: user-service-route
+          uri: lb://taoduoduo-mall-user-service
+          order: 1
+          predicates:
+            - Path=/user/**
+
+        - id: goods-service-route
+          uri: lb://taoduoduo-mall-goods-service
+          order: 1
+          predicates:
+            - Path=/goods/**
+
+        - id: recommend-service-route
+          uri: lb://taoduoduo-mall-recommend-service
+          order: 1
+          predicates:
+            - Path=/recommend/**
+
+        - id: order-service-route
+          uri: lb://taoduoduo-mall-order-service
+          order: 1
+          predicates:
+            - Path=/order/**
+
+        - id: cart-service-route
+          uri: lb://taoduoduo-mall-cart-service
+          order: 1
+          predicates:
+              - Path=/shopcart/**
+
+        - id: user-service-swagger
+          uri: lb://taoduoduo-mall-user-service
+          predicates:
+            - Path=/swagger/user/**
+          filters:
+            - StripPrefix=2
+
+        - id: goods-service-swagger
+          uri: lb://taoduoduo-mall-goods-service
+          predicates:
+            - Path=/swagger/goods/**
+          filters:
+            - StripPrefix=2
+
+        - id: recommend-service-swagger
+          uri: lb://taoduoduo-mall-recommend-service
+          predicates:
+            - Path=/swagger/recommend/**
+          filters:
+            - StripPrefix=2
+
+        - id: order-service-swagger
+          uri: lb://taoduoduo-mall-order-service
+          predicates:
+            - Path=/swagger/order/**
+          filters:
+            - StripPrefix=2
+
+        - id: cart-service-swagger
+          uri: lb://taoduoduo-mall-cart-service
+          predicates:
+            - Path=/swagger/cart/**
+          filters:
+            - StripPrefix=2
